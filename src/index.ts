@@ -1,11 +1,17 @@
 require('dotenv').config();
 
-const express = require("express");
-const mongoose = require("mongoose");
-mongoose.set('strictQuery', true);
-const mongoString = process.env.DATABASE_URL;
+import express from 'express';
+import mongoose from 'mongoose';
+
+mongoose.set("strictQuery", true);
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("Unexpected error: Missing database connection");
+}
+const mongoString : string = process.env.DATABASE_URL;
 
 mongoose.connect(mongoString);
+
 const database = mongoose.connection;
 
 const app = express();
